@@ -11,6 +11,8 @@
 
     <meta name="robots" content="index, follow"/>
     <link rel="canonical" href="https://shans.vercel.app/"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 
     <!-- Open Graph -->
     <meta property="og:title" content="ШансКредит — Кредит до 300 000 UAN онлайн"/>
@@ -44,14 +46,19 @@
     <style>
         /* ----- базовые стили (не менялись) ----- */
         body{margin:0;font-family:Arial,sans-serif;background:#f6f9fc;color:#222}
-        header{background:#5528d2;color:#fff;text-align:center;padding:24px 16px}
+        header{ background: linear-gradient(to bottom, #0057b7 0%, #ffd700 100%);
+            color: #000;text-align:center;padding:24px 16px}
         h1{font-size:28px;font-weight:bold;margin:0}
-        .container{max-width:600px;margin:32px auto;background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
-        h2{color:#5528d2;text-align:center}
+        .container{max-width:600px;margin:32px auto;background: #fdfdfd;border: 2px solid #0057b7;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+        h2{color: #0057b7;text-align:center}
+        .step {
+            border-left: 4px solid #ffd700;
+            padding-left: 12px;
+        }
         label{font-weight:bold;display:block;margin-bottom:6px}
         input,select,textarea{width:100%;padding:12px;margin-bottom:16px;border:1px solid #ccc;border-radius:8px;font-size:16px}
-        button{width:100%;background:#5528d2;color:#fff;border:none;padding:14px;font-size:16px;border-radius:8px;cursor:pointer}
-        button:hover{background:#3f1da8}
+        button{width:100%;background: #0057b7;;color:#fff;border:none;padding:14px;font-size:16px;border-radius:8px;cursor:pointer}
+        button:hover{background: #0046a5}
         .result-box{background:#ede7fd;padding:16px;border-radius:8px;margin-bottom:24px}
         .steps{background:#faf8ff;border-radius:16px;padding:16px;margin-top:40px}
         .step{margin-bottom:16px;font-size:16px}
@@ -61,6 +68,15 @@
         #toast span{float:right;cursor:pointer;margin-left:12px}
         @keyframes fadeInSlideDown{from{opacity:0;transform:translate(-50%,-20px)}to{opacity:1;transform:translate(-50%,0)}}
         @media(max-width:500px){#reviews textarea,#reviews input,#reviews select{font-size:14px}}
+        body {
+            background-image: linear-gradient(#f6f9fc, #fff), url("ukraine-pattern.svg");
+            background-repeat: no-repeat;
+            background-position: top right;
+            background-size: 150px;
+        }
+
+
+
     </style>
 </head>
 
@@ -281,7 +297,9 @@
     <p>За бажанням дані можна видалити, написавши на&nbsp;<a href="mailto:shanscredyt@meta.ua">shanscredyt@meta.ua</a></p>
 </section>
 
-<div class="footer">© 2025 ШансКредит · Контакти: shanscredyt@meta.ua · +38-896-357-447</div>
+<div class="footer">© 2025 ШансКредит · Контакти: shanscredyt@meta.ua · +38-896-357-447
+    <p style="text-align:center;color:#444;margin-top:8px">🇺🇦 Ми підтримуємо Україну — разом до перемоги!</p>
+</div>
 
 <!-- ===== скрипти (тексти повідомлень перекладені) ===== -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
